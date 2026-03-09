@@ -554,9 +554,11 @@ And adding an ellipsis."
 
 (defun welcome-dashboard--insert-misc-info ()
   "Insert misc info in the welcome-dashboard buffer."
-  (let ((misc-list (list (welcome-dashboard--weather-info)
-                         (welcome-dashboard--package-info)
-                         (welcome-dashboard--startup-time))))
+  (let ((misc-list (append
+                  (when (and welcome-dashboard-latitude welcome-dashboard-longitude)
+                    (list (welcome-dashboard--weather-info)))
+                  (list (welcome-dashboard--package-info)
+                        (welcome-dashboard--startup-time)))))
 
         (welcome-dashboard--insert-two-columns
          :left-items misc-list
